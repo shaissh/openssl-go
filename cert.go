@@ -24,6 +24,7 @@ import (
 	"runtime"
 	"time"
 	"unsafe"
+	"encoding/asn1"
 )
 
 type EVP_MD int
@@ -478,13 +479,6 @@ func (c *Certificate) AddRawExtension(extension Extension) (error) {
 	return nil
 }
 
-func (c *Certificate) AddRawExtension(extension Extension) (error) {
-	if C.X509_add_ext(c.x, extension.x, -1) <= 0 {
-		return errorFromErrorQueue()
-	}
-	return nil
-}
-
 func (c *Certificate) AddCertificatePolicy(certificatePolicyID string, policyQualifierID string) error {
 	C.X509V3_add_certificate_policies(c.x, C.CString(certificatePolicyID), C.CString("IA5STRING:" + policyQualifierID))
 	return nil
@@ -645,12 +639,11 @@ type otherName struct {
 	Value  asn1.RawValue
 }
 
-func AddSubjectAltName(othername oName){
+func (c *Certificate) AddSubjectAltName(oName otherName) (error){
 
 	 	// add othername to the cert ..
-
-		if C.X509_add_ext(c.x, extension.x, -1) <= 0 {
-			return errorFromErrorQueue()
-		}
+		// if C.X509_add_ext(c.x, extension.x, -1) <= 0 {
+		// 	return errorFromErrorQueue()
+		// }
 		return nil
 }
