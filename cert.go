@@ -478,6 +478,13 @@ func (c *Certificate) AddRawExtension(extension Extension) (error) {
 	return nil
 }
 
+func (c *Certificate) AddRawExtension(extension Extension) (error) {
+	if C.X509_add_ext(c.x, extension.x, -1) <= 0 {
+		return errorFromErrorQueue()
+	}
+	return nil
+}
+
 func (c *Certificate) AddCertificatePolicy(certificatePolicyID string, policyQualifierID string) error {
 	C.X509V3_add_certificate_policies(c.x, C.CString(certificatePolicyID), C.CString("IA5STRING:" + policyQualifierID))
 	return nil
@@ -638,8 +645,12 @@ type otherName struct {
 	Value  asn1.RawValue
 }
 
-func AddSubjectAltName(string altName){
+func AddSubjectAltName(othername oName){
 
+	 	// add othername to the cert ..
 
-		return otherName
+		if C.X509_add_ext(c.x, extension.x, -1) <= 0 {
+			return errorFromErrorQueue()
+		}
+		return nil
 }
