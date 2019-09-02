@@ -632,3 +632,14 @@ func (c *Certificate) SetVersion(version X509_Version) error {
 	}
 	return nil
 }
+
+type otherName struct {
+	TypeID asn1.ObjectIdentifier
+	Value  asn1.RawValue
+}
+
+func AddSubjectAltName(string altName){
+
+
+		return otherName
+}
